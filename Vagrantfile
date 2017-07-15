@@ -65,7 +65,12 @@ Vagrant.configure("2") do |config|
     vb.gui = true
   
     # Customize the amount of memory on the VM:
-    vb.memory = "1024"
+    vb.memory = "2048"
+    
+    # クリップボードの共有: 双方向
+    vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+    # ドラッグ＆ドロップ
+    vb.customize ["modifyvm", :id, "--draganddrop", "bidirectional"]
   end
 
   # Enable provisioning with a shell script. Additional provisioners such as
@@ -78,8 +83,9 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
     apt-get install -y \
-      ubuntu-desktop \
       git \
-      nginx
+      nginx \
+      ubuntu-desktop \
+      build-essential
   SHELL
 end
